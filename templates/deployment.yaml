@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+  labels: #deployment labels
+    purpose: deployment-demo
+    project: roboshop
+    app: nginx
+spec:
+  replicas: {{ .Values.deployment.replicas }}
+  # these are the labels replica set use to create pod replicas, this should match pod labels
+  selector:
+    matchLabels:
+      purpose: deployment-demo
+      project: roboshop
+      app: nginx
+  template: #this is pod definition
+    metadata:
+      labels: 
+        purpose: deployment-demo
+        project: roboshop
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:{{ .Values.deployment.imageVersion }}
